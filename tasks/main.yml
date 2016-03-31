@@ -1,4 +1,12 @@
 ---
+- name: optionally add newrelic repo
+  apt_repository: repo="deb http://apt.newrelic.com/debian/ newrelic non-free" state=present
+  when: use_newrelic
+
+- name: add the newrelic repo key
+  apt_key: url="https://download.newrelic.com/548C16BF.gpg" state=present
+  when: use_newrelic
+
 - name: install base packages
   apt: pkg={{ item }} state=present
   with_items:
@@ -15,6 +23,22 @@
     - openssh-client
     - openssh-server
     - rsync
+
+- name: optionally install newrelic system monitoring
+  apt: pkg=newrelic-sysmond state=latest
+  when: use_newrelic
+
+- name: configure newrelic system monitoring
+  template: src=nrsysmond.cfg
+            dest=/etc/newrelic/nrsysmond.cfg
+            owner=newrelic
+            group=newrelic
+            mode=0440
+  when: use_newrelic
+
+- name: ensure that newrelic is running
+  service: name=newrelic-sysmond state=started
+  when: use_newrelic
 
 - name: ensure that the admin and login groups are present
   group: name={{ item }} state=present system=yes
