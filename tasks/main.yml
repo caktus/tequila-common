@@ -43,12 +43,9 @@
     - restart fail2ban
 
 - name: add github to the ssh known hosts
-  lineinfile: line="{{ lookup('file', 'github.pub') }}"
-              dest=/etc/ssh/ssh_known_hosts
-              state=present
-              create=yes
-              owner=root
-              mode=0644
+  known_hosts: path=/etc/ssh/ssh_known_hosts
+               name='github.com'
+               key="{{ lookup('file', 'github.pub') }}"
 
 - name: set the locale to utf8
   lineinfile: line={{ item }} dest=/etc/default/locale state=present create=yes owner=root mode=0644
