@@ -66,7 +66,7 @@ role:
 
 - ``project_name`` **required**
 - ``new_relic_license_key`` **optional**
-- ``users`` **default:** empty list
+- ``users`` **default:** empty dict
 - ``root_dir`` **default:** ``"/var/www/{{ project_name }}"``
 - ``log_dir`` **default:** ``"{{ root_dir }}/log"``
 - ``public_dir`` **default:** ``"{{ root_dir }}/public"``
@@ -74,3 +74,19 @@ role:
 - ``media_dir`` **default:** ``"{{ root_dir }}/public/media"``
 - ``ssh_dir`` **default:** ``"/home/{{ project_name }}/.ssh"``
 - ``ssl_dir`` **default:** ``"{{ root_dir }}/ssl"``
+
+The ``users`` variable is meant to be a dict where the keys are
+usernames and the values are each a dict containing the user's public
+ssh key under the key ``public_key``.  So, a typical definition for
+``users`` in an actual project might look like
+
+    users:
+      user1:
+        public_key:
+          - ssh-rsa AAAAAA user1@example.com
+      user2:
+        public_key:
+          - ssh-rsa AAAAAA user2@example.com
+      user3:
+        public_key:
+          - ssh-rsa AAAAAA user3@example.com
