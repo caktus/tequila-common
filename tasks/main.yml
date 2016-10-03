@@ -17,7 +17,7 @@
     - rsync
 
 - include: newrelic.yml
-  when: new_relic_license_key is defined
+  when: use_newrelic
 
 - name: ensure that the admin and login groups are present
   group: name={{ item }} state=present system=yes

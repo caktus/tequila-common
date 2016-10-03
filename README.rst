@@ -74,6 +74,7 @@ role:
 - ``media_dir`` **default:** ``"{{ root_dir }}/public/media"``
 - ``ssh_dir`` **default:** ``"/home/{{ project_name }}/.ssh"``
 - ``ssl_dir`` **default:** ``"{{ root_dir }}/ssl"``
+- ``use_newrelic`` **default:** ``false``
 
 The ``users`` variable is meant to be a dict where the keys are
 usernames and the values are each a dict containing the user's public
