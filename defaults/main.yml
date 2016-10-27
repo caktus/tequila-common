@@ -1,0 +1,10 @@
+---
+users: []
+root_dir: "/var/www/{{ project_name }}"
+log_dir: "{{ root_dir }}/log"
+public_dir: "{{ root_dir }}/public"
+static_dir: "{{ root_dir }}/public/static"
+media_dir: "{{ root_dir }}/public/media"
+ssh_dir: "/home/{{ project_name }}/.ssh"
+ssl_dir: "{{ root_dir }}/ssl"
+use_newrelic: false
