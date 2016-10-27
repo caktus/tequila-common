@@ -76,18 +76,19 @@ role:
 - ``ssl_dir`` **default:** ``"{{ root_dir }}/ssl"``
 - ``use_newrelic`` **default:** ``false``
 
-The ``users`` variable is meant to be a dict where the keys are
-usernames and the values are each a dict containing the user's public
-ssh key under the key ``public_key``.  So, a typical definition for
-``users`` in an actual project might look like
+The ``users`` variable is meant to be a list of dicts, where each dict
+represents a developer.  There are two required keys for each dict:
+``name``, for the username of the developer, and ``public_keys``, with
+a list of the user's public ssh keys.  So, a typical definition for
+``users`` in an actual project might look like ::
 
     users:
-      user1:
-        public_key:
-          - ssh-rsa AAAAAA user1@example.com
-      user2:
-        public_key:
-          - ssh-rsa AAAAAA user2@example.com
-      user3:
-        public_key:
-          - ssh-rsa AAAAAA user3@example.com
+      - name: user1
+        public_keys:
+          - "ssh-rsa AAAAAA user1@example.com"
+      - name: user2
+        public_keys:
+          - "ssh-rsa AAAAAA user2@example.com"
+      - name: user3
+        public_keys:
+          - "ssh-rsa AAAAAA user3@example.com"
