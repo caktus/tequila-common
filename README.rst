@@ -36,7 +36,7 @@ Ansible where to install your roles (optionally, set the
 allow the roles to be installed into ``/etc/ansible/roles``) ::
 
     [defaults]
-    roles_path = roles/
+    roles_path = deployment/roles/
 
 Create a ``requirements.yml`` file in your project's deployment
 directory ::
@@ -65,8 +65,7 @@ The following variables are made use of by the ``tequila-common``
 role:
 
 - ``project_name`` **required**
-- ``new_relic_license_key`` **optional**
-- ``users`` **default:** empty dict
+- ``users`` **default:** empty list
 - ``root_dir`` **default:** ``"/var/www/{{ project_name }}"``
 - ``log_dir`` **default:** ``"{{ root_dir }}/log"``
 - ``public_dir`` **default:** ``"{{ root_dir }}/public"``
@@ -75,6 +74,7 @@ role:
 - ``ssh_dir`` **default:** ``"/home/{{ project_name }}/.ssh"``
 - ``ssl_dir`` **default:** ``"{{ root_dir }}/ssl"``
 - ``use_newrelic`` **default:** ``false``
+- ``new_relic_license_key`` **required if use_newrelic = true**
 
 The ``users`` variable is meant to be a list of dicts, where each dict
 represents a developer.  There are two required keys for each dict:
