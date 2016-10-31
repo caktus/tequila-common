@@ -61,6 +61,9 @@
   user: name={{ item.name }} shell=/bin/bash groups=admin,login append=yes
   with_items: "{{ users }}"
 
+- include: vagrant.yml
+  when: env_name == 'local'
+
 # Note: this does a nested iteration, iterating over each user's defined keys.
 - name: add ssh keys for dev users
   authorized_key: user={{ item.0.name }} key="{{ item.1 }}"
