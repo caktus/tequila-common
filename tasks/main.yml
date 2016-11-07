@@ -11,6 +11,7 @@
     - ntp
     - sudo
     - ufw
+    - postfix
     - fail2ban
     - openssh-client
     - openssh-server
@@ -33,6 +34,9 @@
 
 - name: ensure ufw is turned on
   ufw: state=enabled policy=deny
+
+- name: ensure postfix is turned on
+  service: name=postfix state=started
 
 - name: ensure fail2ban is turned on
   service: name=fail2ban state=started
