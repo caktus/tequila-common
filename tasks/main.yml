@@ -16,6 +16,8 @@
     - openssh-client
     - openssh-server
     - rsync
+    - apt-transport-https
+    - lsof
 
 - include: newrelic.yml
   when: use_newrelic
