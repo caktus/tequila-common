@@ -119,6 +119,7 @@
         mode=0755
         group={{ project_name }}
         owner={{ project_name }}
+        recurse=yes
 
 - name: media dir
   file: path={{ media_dir }}
@@ -126,6 +127,7 @@
         mode=0755
         group={{ project_name }}
         owner={{ project_name }}
+        recurse=yes
 
 - name: create the user ssh directory
   file: path={{ ssh_dir }}
