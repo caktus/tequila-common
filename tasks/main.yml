@@ -11,10 +11,13 @@
     - ntp
     - sudo
     - ufw
+    - postfix
     - fail2ban
     - openssh-client
     - openssh-server
     - rsync
+    - apt-transport-https
+    - lsof
 
 - include: newrelic.yml
   when: use_newrelic
@@ -33,6 +36,9 @@
 
 - name: ensure ufw is turned on
   ufw: state=enabled policy=deny
+
+- name: ensure postfix is turned on
+  service: name=postfix state=started
 
 - name: ensure fail2ban is turned on
   service: name=fail2ban state=started
@@ -60,6 +66,9 @@
 - name: ensure that dev users are present
   user: name={{ item.name }} shell=/bin/bash groups=admin,login append=yes
   with_items: "{{ users }}"
+
+- include: vagrant.yml
+  when: env_name == 'local'
 
 # Note: this does a nested iteration, iterating over each user's defined keys.
 - name: add ssh keys for dev users
