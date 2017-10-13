@@ -65,6 +65,7 @@ The following variables are made use of by the ``tequila-common``
 role:
 
 - ``project_name`` **required**
+- ``env_name`` **required** e.g. ``'staging'``
 - ``users`` **default:** empty list
 - ``root_dir`` **default:** ``"/var/www/{{ project_name }}"``
 - ``log_dir`` **default:** ``"{{ root_dir }}/log"``
