@@ -6,5 +6,4 @@ public_dir: "{{ root_dir }}/public"
 static_dir: "{{ root_dir }}/public/static"
 media_dir: "{{ root_dir }}/public/media"
 ssh_dir: "/home/{{ project_name }}/.ssh"
-ssl_dir: "{{ root_dir }}/ssl"
 use_newrelic: false
