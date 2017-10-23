@@ -73,7 +73,6 @@ role:
 - ``static_dir`` **default:** ``"{{ root_dir }}/public/static"``
 - ``media_dir`` **default:** ``"{{ root_dir }}/public/media"``
 - ``ssh_dir`` **default:** ``"/home/{{ project_name }}/.ssh"``
-- ``ssl_dir`` **default:** ``"{{ root_dir }}/ssl"``
 - ``use_newrelic`` **default:** ``false``
 - ``new_relic_license_key`` **required if use_newrelic = true**
 

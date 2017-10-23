@@ -133,10 +133,3 @@
         owner={{ project_name }}
         group={{ project_name }}
         mode=700
-
-- name: create the ssl directory
-  file: path={{ ssl_dir }}
-        state=directory
-        owner={{ project_name }}
-        group={{ project_name }}
-        mode=700
