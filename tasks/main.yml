@@ -77,6 +77,19 @@
     - "{{ users }}"
     - public_keys
 
+- name: check the active user accounts
+  shell: "getent passwd $(basename -a /home/*) | cut -d: -f1"
+  register: current_users_out
+
+- name: disable user accounts that are not listed devs or unmanaged accounts
+  user:
+    name: "{{ item }}"
+    state: absent
+  with_items: "{{ current_users | difference(active_users) | difference(unmanaged_users) }}"
+  vars:
+    current_users: "{{ current_users_out.stdout_lines }}"
+    active_users: "{{ users | map(attribute='name') | list }}"
+
 # Now that we've hopefully configured some non-root users to be able to ssh
 # in, update the sshd config, which (among other things) will disable root
 # logins.
