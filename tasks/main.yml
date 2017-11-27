@@ -87,7 +87,7 @@
     state: absent
   with_items: "{{ current_users | difference(active_users) | difference(unmanaged_users) }}"
   vars:
-    current_users: "{{ current_users_out.stdout_lines }}"
+    current_users: "{{ current_users_out.stdout_lines | difference([project_name]) }}"
     active_users: "{{ users | map(attribute='name') | list }}"
 
 # Now that we've hopefully configured some non-root users to be able to ssh

@@ -98,9 +98,10 @@ The ``unmanaged_users`` variable is a list that is intended to hold
 any special-case users that have been created by other means, that it
 is not desirable to remove as stale.  All users that have a directory
 under /home/ and that are not in either ``users`` or
-``unmanaged_users`` will be removed on each run of this role.
-However, the users' files and directories will not be removed.  This
-variable should look something like ::
+``unmanaged_users`` (not counting the special user that owns the files
+from the codebase) will be removed on each run of this role.  However,
+the users' files and directories will not be removed.  This variable
+should look something like ::
 
     unmanaged_users:
       - special_user1
