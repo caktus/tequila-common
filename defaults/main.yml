@@ -1,5 +1,6 @@
 ---
 users: []
+unmanaged_users: []
 root_dir: "/var/www/{{ project_name }}"
 log_dir: "{{ root_dir }}/log"
 public_dir: "{{ root_dir }}/public"

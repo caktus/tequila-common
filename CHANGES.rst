@@ -3,6 +3,20 @@ Tequila-common
 
 Changes
 
+v 0.8.2 on Nov 20, 2017
+-----------------------
+
+* Remove user accounts that are not within either ``users`` or the new
+  ``unmanaged_users`` list.
+
+  Before upgrading and deploying with this version, the servers
+  covered under this role should be checked for accounts that have a
+  home directory under /home/, are not stale developer users, but are
+  not currently captured under the ``users`` variable.  These special
+  users, if the assessment concludes that they need to remain, should
+  be added to the ``unmanaged_users`` list.
+
+
 v 0.8.1 on Oct 20, 2017
 -----------------------
 
@@ -10,6 +24,7 @@ v 0.8.1 on Oct 20, 2017
   If you were previously not using tequila-nginx, but you WERE
   customizing ``ssl_dir``, then you'll need to create a task outside
   Tequila to create your customized ``ssl_dir`` directory.
+
 
 v 0.8.0 on May 3, 2017
 ----------------------

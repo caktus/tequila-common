@@ -67,6 +67,7 @@ role:
 - ``project_name`` **required**
 - ``env_name`` **required** e.g. ``'staging'``
 - ``users`` **default:** empty list
+- ``unmanaged_users`` **default:** empty list
 - ``root_dir`` **default:** ``"/var/www/{{ project_name }}"``
 - ``log_dir`` **default:** ``"{{ root_dir }}/log"``
 - ``public_dir`` **default:** ``"{{ root_dir }}/public"``
@@ -92,3 +93,17 @@ a list of the user's public ssh keys.  So, a typical definition for
       - name: user3
         public_keys:
           - "ssh-rsa AAAAAA user3@example.com"
+
+The ``unmanaged_users`` variable is a list that is intended to hold
+any special-case users that have been created by other means, that it
+is not desirable to remove as stale.  All users that have a directory
+under /home/ and that are not in either ``users`` or
+``unmanaged_users`` (not counting the special user that owns the files
+from the codebase) will be removed on each run of this role.  However,
+the users' files and directories will not be removed.  This variable
+should look something like ::
+
+    unmanaged_users:
+      - special_user1
+      - special_user2
+      - special_user3
