@@ -121,14 +121,21 @@ a list of the user's public ssh keys.  So, a typical definition for
 
 The ``unmanaged_users`` variable is a list that is intended to hold
 any special-case users that have been created by other means, that it
-is not desirable to remove as stale.  All users that have a directory
-under /home/ and that are not in either ``users`` or
-``unmanaged_users`` (not counting the special user that owns the files
-from the codebase) will be removed on each run of this role.  However,
-the users' files and directories will not be removed.  This variable
-should look something like ::
+is not desirable to remove as stale.  These users will not be created
+by tequila-common if they do not already exist.  It is probably a good
+idea to include ``vagrant`` in this list, if you are making use of
+Vagrant box(es) in your project.  This variable should probably be set
+in your project-wide variables file
+(e.g. deployment/playbooks/group_vars/all/project.yml), and should
+look something like ::
 
     unmanaged_users:
       - special_user1
       - special_user2
       - special_user3
+
+All users that have a directory under /home/ and that are not in
+either ``users`` or ``unmanaged_users`` (not counting the special user
+that owns the files from the codebase) will be removed on each run of
+this role.  However, the users' files and directories will not be
+removed.
