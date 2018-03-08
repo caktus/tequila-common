@@ -68,17 +68,17 @@ Tequila-common will attempt to set the hostname of each machine based
 on the name you gave it in your inventory file.  For example, if your
 inventory file consists of ::
 
-    myprojname-web1 ansible_host=42.42.42.42
-    myprojname-web2 ansible_host=42.42.42.43
+    web1 ansible_host=42.42.42.42
+    web2 ansible_host=42.42.42.43
 
     [web]
-    myprojname-web1
-    myprojname-web2
+    web1
+    web2
 
     ...
 
-your servers will receive the hostnames ``myprojname-web1`` and
-``myprojname-web2``, respectively.
+your servers will receive the hostnames ``web1`` and ``web2``,
+respectively.
 
 
 Variables
