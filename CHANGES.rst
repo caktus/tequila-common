@@ -3,6 +3,13 @@ Tequila-common
 
 Changes
 
+v 0.8.4 on Mar 8, 2018
+----------------------
+
+* Revert the changes made in v0.8.3 as they can cause issues if
+  RabbitMQ is installed, or if cloud-init is installed.
+
+
 v 0.8.3 on Dec 15, 2017
 -----------------------
 
