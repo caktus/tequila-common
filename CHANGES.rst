@@ -3,6 +3,13 @@ Tequila-common
 
 Changes
 
+v 0.8.3 on Dec 15, 2017
+-----------------------
+
+* Set the hostname of the server and the localhost entry in /etc/hosts
+  based on the hostname given in the inventory file.
+
+
 v 0.8.2 on Nov 20, 2017
 -----------------------
 
