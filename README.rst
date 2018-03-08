@@ -77,10 +77,8 @@ inventory file consists of ::
 
     ...
 
-your servers will have the hostnames ``myprojname-web1`` and
-``myprojname-web2``, respectively, applied in /etc/hostname and the
-127.0.0.1 entry in the /etc/hosts file.  Note that the servers will
-have to be rebooted for this change to take effect.
+your servers will receive the hostnames ``myprojname-web1`` and
+``myprojname-web2``, respectively.
 
 
 Variables
