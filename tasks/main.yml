@@ -2,7 +2,7 @@
 - name: set hostname
   hostname:
     name: "{{ inventory_hostname_short }}"
-  when: inventory_hostname_short is defined and inventory_hostname_short
+  when: inventory_hostname_short
 
 - name: add new hostname to /etc/hosts
   lineinfile:
@@ -12,7 +12,7 @@
     owner: root
     group: root
     mode: 0644
-  when: inventory_hostname_short is defined and inventory_hostname_short
+  when: inventory_hostname_short
 
 - name: install base packages
   apt: pkg={{ item }} state=present update-cache=yes cache_valid_time=3600
