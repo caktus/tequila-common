@@ -61,28 +61,6 @@ The project then should have access to the ``tequila-common`` role in
 its playbooks.
 
 
-Hostnames
----------
-
-Tequila-common will attempt to set the hostname of each machine based
-on the name you gave it in your inventory file.  For example, if your
-inventory file consists of ::
-
-    myprojname-web1 ansible_host=42.42.42.42
-    myprojname-web2 ansible_host=42.42.42.43
-
-    [web]
-    myprojname-web1
-    myprojname-web2
-
-    ...
-
-your servers will have the hostnames ``myprojname-web1`` and
-``myprojname-web2``, respectively, applied in /etc/hostname and the
-127.0.0.1 entry in the /etc/hosts file.  Note that the servers will
-have to be rebooted for this change to take effect.
-
-
 Variables
 ---------
 
