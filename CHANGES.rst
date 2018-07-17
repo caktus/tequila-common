@@ -3,6 +3,13 @@ Tequila-common
 
 Changes
 
+v 0.8.5 on TBD
+-----------------------
+
+* Added ``project_user_private_key`` to allow specification of the project
+  user's private SSH key (.ssh/id_rsa).
+
+
 v 0.8.4 on Apr 19, 2018
 -----------------------
 
