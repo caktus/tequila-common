@@ -79,6 +79,7 @@ role:
 - ``ssh_dir`` **default:** ``"/home/{{ project_name }}/.ssh"``
 - ``use_newrelic`` **default:** ``false``
 - ``new_relic_license_key`` **required if use_newrelic = true**
+- ``project_user_private_key`` **default:** ``''``
 
 The ``users`` variable is meant to be a list of dicts, where each dict
 represents a developer.  There are two required keys for each dict:

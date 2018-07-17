@@ -146,3 +146,17 @@
         owner={{ project_name }}
         group={{ project_name }}
         mode=700
+
+- name: store path to private SSH key
+  set_fact:
+    project_user_key_path: "{{ ssh_dir }}/id_rsa"
+  when: project_user_private_key|default('')
+
+- name: upload private SSH key
+  copy: content={{ project_user_private_key }}
+        dest={{ project_user_key_path }}
+        owner={{ project_name }}
+        group={{ project_name }}
+        mode=600
+  register: project_user_key
+  when: project_user_private_key|default('')
