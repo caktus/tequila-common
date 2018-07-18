@@ -6,17 +6,6 @@
     state: present
     regexp: SSH_AUTH_SOCK
     line: Defaults env_keep += "SSH_AUTH_SOCK"
-  notify:
-  - restart sudo
-
-- name: Enable ssh agent forwarding by incoming connections in server sshd config
-  lineinfile:
-    dest: /etc/ssh/sshd_config
-    state: present
-    regexp: AllowAgentForwarding
-    line: AllowAgentForwarding yes
-  notify:
-  - restart sshd
 
 - name: install base packages
   apt: pkg={{ item }} state=present update-cache=yes cache_valid_time=3600
