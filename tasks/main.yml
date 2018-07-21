@@ -87,7 +87,7 @@
     state: absent
   with_items: "{{ current_users | difference(active_users) | difference(unmanaged_users) }}"
   vars:
-    current_users: "{{ current_users_out.stdout_lines | difference([project_name]) }}"
+    current_users: "{{ current_users_out.stdout_lines | difference([project_user]) }}"
     active_users: "{{ users | map(attribute='name') | list }}"
 
 # Now that we've hopefully configured some non-root users to be able to ssh
@@ -99,8 +99,8 @@
     - restart sshd
 
 - name: create the project user
-  user: name={{ project_name }}
-        home=/home/{{ project_name }}
+  user: name={{ project_user }}
+        home=/home/{{ project_user }}
         shell=/bin/bash
         groups=www-data
         append=yes # appends the group(s) set above to the user's set of groups
@@ -108,21 +108,21 @@
 - name: create the project root directory
   file: path={{ root_dir }}
         state=directory
-        owner={{ project_name }}
-        group={{ project_name }}
+        owner={{ project_user }}
+        group={{ project_user }}
         mode=775
 
 - name: create the log directory
   file: path={{ log_dir }}
         state=directory
-        owner={{ project_name }}
+        owner={{ project_user }}
         group=www-data
         mode=775
 
 - name: create the public directory
   file: path={{ public_dir }}
         state=directory
-        owner={{ project_name }}
+        owner={{ project_user }}
         group=www-data
         mode=775
 
@@ -130,19 +130,19 @@
   file: path={{ static_dir }}
         state=directory
         mode=0755
-        group={{ project_name }}
-        owner={{ project_name }}
+        group={{ project_user }}
+        owner={{ project_user }}
 
 - name: media dir
   file: path={{ media_dir }}
         state=directory
         mode=0755
-        group={{ project_name }}
-        owner={{ project_name }}
+        group={{ project_user }}
+        owner={{ project_user }}
 
 - name: create the user ssh directory
   file: path={{ ssh_dir }}
         state=directory
-        owner={{ project_name }}
-        group={{ project_name }}
+        owner={{ project_user }}
+        group={{ project_user }}
         mode=700

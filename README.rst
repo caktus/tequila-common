@@ -70,13 +70,14 @@ role:
 - ``project_name`` **required**
 - ``env_name`` **required** e.g. ``'staging'``
 - ``users`` **default:** empty list
+- ``project_user`` **default:** ``"{{ project_name }}"``
 - ``unmanaged_users`` **default:** empty list
 - ``root_dir`` **default:** ``"/var/www/{{ project_name }}"``
 - ``log_dir`` **default:** ``"{{ root_dir }}/log"``
 - ``public_dir`` **default:** ``"{{ root_dir }}/public"``
 - ``static_dir`` **default:** ``"{{ root_dir }}/public/static"``
 - ``media_dir`` **default:** ``"{{ root_dir }}/public/media"``
-- ``ssh_dir`` **default:** ``"/home/{{ project_name }}/.ssh"``
+- ``ssh_dir`` **default:** ``"/home/{{ project_user }}/.ssh"``
 - ``use_newrelic`` **default:** ``false``
 - ``new_relic_license_key`` **required if use_newrelic = true**
 
