@@ -73,6 +73,7 @@ The following variables are made use of by the ``tequila-common``
 role:
 
 - ``project_name`` **required**
+- ``project_user`` **default:** ``{{ project_name }}``
 - ``env_name`` **required** e.g. ``'staging'``
 - ``users`` **default:** empty list
 - ``unmanaged_users`` **default:** empty list
@@ -84,6 +85,10 @@ role:
 - ``ssh_dir`` **default:** ``"/home/{{ project_name }}/.ssh"``
 - ``use_newrelic`` **default:** ``false``
 - ``new_relic_license_key`` **required if use_newrelic = true**
+- ``subproject`` **default:** ``false`` - for multiple project deploys,
+   this can be set true for all but one project, so things that only
+   need to be done once on the server can be skipped for all but one
+   project.
 
 The ``users`` variable is meant to be a list of dicts, where each dict
 represents a developer.  There are two required keys for each dict:

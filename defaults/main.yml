@@ -8,3 +8,5 @@ static_dir: "{{ root_dir }}/public/static"
 media_dir: "{{ root_dir }}/public/media"
 ssh_dir: "/home/{{ project_name }}/.ssh"
 use_newrelic: false
+project_user: "{{ project_name }}"
+subproject: false

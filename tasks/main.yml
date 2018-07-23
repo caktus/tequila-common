@@ -1,156 +1,172 @@
 ---
 
-- name: Configure sudo so ssh agent forwarding survives sudo
-  lineinfile:
-    dest: /etc/sudoers
-    state: present
-    regexp: SSH_AUTH_SOCK
-    line: Defaults env_keep += "SSH_AUTH_SOCK"
+# This block is all the stuff we only need to do once, no matter how many
+# projects we're deploying.  One project needs to have subproject false
+# (which is the default), then we skip all this for the rest of the projects,
+# which should have subproject true;
+- when: not subproject
+  block:
+  - name: Configure sudo so ssh agent forwarding survives sudo
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      regexp: SSH_AUTH_SOCK
+      line: Defaults env_keep += "SSH_AUTH_SOCK"
 
-- name: install base packages
-  apt: pkg={{ item }} state=present update-cache=yes cache_valid_time=3600
-  with_items:
-    - python-software-properties
-    - dpkg-dev
-    - wget
-    - build-essential
-    - vim
-    - byobu
-    - ntp
-    - sudo
-    - ufw
-    - postfix
-    - fail2ban
-    - openssh-client
-    - openssh-server
-    - rsync
-    - apt-transport-https
-    - lsof
+  - name: Set up /etc/ssh/sshrc to open up the ssh auth sock iffi the agent was forwarded
+    copy:
+      dest: /etc/ssh/sshrc
+      content: |
+        if [ -n "$SSH_AUTH_SOCK" ] ; then
+          chmod a+r $SSH_AUTH_SOCK
+          chmod a+rx $(dirname $SSH_AUTH_SOCK)
+        fi
 
-- include: newrelic.yml
-  when: use_newrelic
+  - name: install base packages
+    apt: pkg={{ item }} state=present update-cache=yes cache_valid_time=3600
+    with_items:
+      - python-software-properties
+      - dpkg-dev
+      - wget
+      - build-essential
+      - vim
+      - byobu
+      - ntp
+      - sudo
+      - ufw
+      - postfix
+      - fail2ban
+      - openssh-client
+      - openssh-server
+      - rsync
+      - apt-transport-https
+      - lsof
 
-- name: ensure that the admin and login groups are present
-  group: name={{ item }} state=present system=yes
-  with_items:
-    - admin
-    - login
+  - include: newrelic.yml
+    when: use_newrelic
 
-- name: allow admin group users to sudo
-  copy: src=admin dest=/etc/sudoers.d/admin owner=root mode=0440
+  - name: ensure that the admin and login groups are present
+    group: name={{ item }} state=present system=yes
+    with_items:
+      - admin
+      - login
 
-- name: allow ssh through firewall
-  ufw: rule=allow port=ssh
+  - name: allow admin group users to sudo
+    copy: src=admin dest=/etc/sudoers.d/admin owner=root mode=0440
 
-- name: ensure ufw is turned on
-  ufw: state=enabled policy=deny
+  - name: allow ssh through firewall
+    ufw: rule=allow port=ssh
 
-- name: ensure postfix is turned on
-  service: name=postfix state=started
+  - name: ensure ufw is turned on
+    ufw: state=enabled policy=deny
 
-- name: ensure fail2ban is turned on
-  service: name=fail2ban state=started
+  - name: ensure postfix is turned on
+    service: name=postfix state=started
 
-- name: configure fail2ban
-  copy: src=jail.local dest=/etc/fail2ban/jail.local owner=root mode=0644
-  notify:
-    - restart fail2ban
+  - name: ensure fail2ban is turned on
+    service: name=fail2ban state=started
 
-- name: add github to the ssh known hosts
-  known_hosts: path=/etc/ssh/ssh_known_hosts
-               name='github.com'
-               key="{{ lookup('file', 'github.pub') }}"
+  - name: configure fail2ban
+    copy: src=jail.local dest=/etc/fail2ban/jail.local owner=root mode=0644
+    notify:
+      - restart fail2ban
 
-- name: set the locale to utf8
-  lineinfile: line={{ item }} dest=/etc/default/locale state=present create=yes owner=root mode=0644
-  with_items:
-    - "LC_ALL=en_US.UTF-8"
-    - "LANG=en_US.UTF-8"
+  - name: add github to the ssh known hosts
+    known_hosts: path=/etc/ssh/ssh_known_hosts
+                 name='github.com'
+                 key="{{ lookup('file', 'github.pub') }}"
 
-- name: check that the project has some users configured
-  fail: msg="Please define one or more developers in the `users` variable"
-  when: not users
+  - name: set the locale to utf8
+    lineinfile: line={{ item }} dest=/etc/default/locale state=present create=yes owner=root mode=0644
+    with_items:
+      - "LC_ALL=en_US.UTF-8"
+      - "LANG=en_US.UTF-8"
 
-- name: ensure that dev users are present
-  user: name={{ item.name }} shell=/bin/bash groups=admin,login append=yes
-  with_items: "{{ users }}"
+  - name: check that the project has some users configured
+    fail: msg="Please define one or more developers in the `users` variable"
+    when: not users
 
-- include: vagrant.yml
-  when: env_name == 'local'
+  - name: ensure that dev users are present
+    user: name={{ item.name }} shell=/bin/bash groups=admin,login append=yes
+    with_items: "{{ users }}"
 
-# Note: this does a nested iteration, iterating over each user's defined keys.
-- name: add ssh keys for dev users
-  authorized_key: user={{ item.0.name }} key="{{ item.1 }}"
-  with_subelements:
-    - "{{ users }}"
-    - public_keys
+  - include: vagrant.yml
+    when: env_name == 'local'
 
-- name: check the active user accounts
-  shell: "getent passwd $(basename -a /home/*) | cut -d: -f1"
-  register: current_users_out
+  # Note: this does a nested iteration, iterating over each user's defined keys.
+  - name: add ssh keys for dev users
+    authorized_key: user={{ item.0.name }} key="{{ item.1 }}"
+    with_subelements:
+      - "{{ users }}"
+      - public_keys
 
-- name: disable user accounts that are not listed devs or unmanaged accounts
-  user:
-    name: "{{ item }}"
-    state: absent
-  with_items: "{{ current_users | difference(active_users) | difference(unmanaged_users) }}"
-  vars:
-    current_users: "{{ current_users_out.stdout_lines | difference([project_name]) }}"
-    active_users: "{{ users | map(attribute='name') | list }}"
+  - name: check the active user accounts
+    shell: "getent passwd $(basename -a /home/*) | cut -d: -f1"
+    register: current_users_out
 
-# Now that we've hopefully configured some non-root users to be able to ssh
-# in, update the sshd config, which (among other things) will disable root
-# logins.
-- name: configure sshd
-  copy: src=sshd_config dest=/etc/ssh/sshd_config owner=root mode=0644
-  notify:
-    - restart sshd
+# FIXME: need to preserve user accounts for ALL projects, how to do that?
+#  - name: disable user accounts that are not listed devs or unmanaged accounts
+#    user:
+#      name: "{{ item }}"
+#      state: absent
+#    with_items: "{{ current_users | difference(active_users) | difference(unmanaged_users) }}"
+#    vars:
+#      current_users: "{{ current_users_out.stdout_lines | difference([project_name]) }}"
+#      active_users: "{{ users | map(attribute='name') | list }}"
 
-- name: create the project user
-  user: name={{ project_name }}
-        home=/home/{{ project_name }}
+  # Now that we've hopefully configured some non-root users to be able to ssh
+  # in, update the sshd config, which (among other things) will disable root
+  # logins.
+  - name: configure sshd
+    copy: src=sshd_config dest=/etc/ssh/sshd_config owner=root mode=0644
+    notify:
+      - restart sshd
+
+- name: create the project user {{ project_user }}
+  user: name={{ project_user }}
+        home=/home/{{ project_user }}
         shell=/bin/bash
         groups=www-data
         append=yes # appends the group(s) set above to the user's set of groups
 
-- name: create the project root directory
+- name: create the project root directory {{ root_dir }}
   file: path={{ root_dir }}
         state=directory
-        owner={{ project_name }}
-        group={{ project_name }}
+        owner={{ project_user }}
+        group={{ project_user }}
         mode=775
 
-- name: create the log directory
+- name: create the log directory {{ log_dir }}
   file: path={{ log_dir }}
         state=directory
-        owner={{ project_name }}
+        owner={{ project_user }}
         group=www-data
         mode=775
 
-- name: create the public directory
+- name: create the public directory {{ public_dir }}
   file: path={{ public_dir }}
         state=directory
-        owner={{ project_name }}
+        owner={{ project_user }}
         group=www-data
         mode=775
 
-- name: static dir
+- name: static dir {{ static_dir }}
   file: path={{ static_dir }}
         state=directory
         mode=0755
-        group={{ project_name }}
-        owner={{ project_name }}
+        group={{ project_user }}
+        owner={{ project_user }}
 
-- name: media dir
+- name: media dir {{ media_dir }}
   file: path={{ media_dir }}
         state=directory
         mode=0755
-        group={{ project_name }}
-        owner={{ project_name }}
+        group={{ project_user }}
+        owner={{ project_user }}
 
-- name: create the user ssh directory
+- name: create the user ssh directory {{ ssh_dir }}
   file: path={{ ssh_dir }}
         state=directory
-        owner={{ project_name }}
-        group={{ project_name }}
+        owner={{ project_user }}
+        group={{ project_user }}
         mode=700
