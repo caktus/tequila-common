@@ -9,6 +9,14 @@ v X.Y.Z on MMM DD, YYYY
 * Add ``subproject`` variable to speed up multisite deploys.
 * Some changes to help with ssh agent forwarding.
 
+
+v 0.8.5 on Jul 24, 2018
+-----------------------
+
+* Configure the project user separately from the project name, as
+  tequila-django does.
+
+
 v 0.8.4 on Apr 19, 2018
 -----------------------
 

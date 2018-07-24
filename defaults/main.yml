@@ -1,12 +1,12 @@
 ---
 users: []
 unmanaged_users: []
-root_dir: "/var/wwmw/{{ project_name }}"
+project_user: "{{ project_name }}"
+root_dir: "/var/www/{{ project_name }}"
 log_dir: "{{ root_dir }}/log"
 public_dir: "{{ root_dir }}/public"
 static_dir: "{{ root_dir }}/public/static"
 media_dir: "{{ root_dir }}/public/media"
-ssh_dir: "/home/{{ project_name }}/.ssh"
+ssh_dir: "/home/{{ project_user }}/.ssh"
 use_newrelic: false
-project_user: "{{ project_name }}"
 subproject: false
