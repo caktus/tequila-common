@@ -3,7 +3,7 @@ Tequila-common
 
 Changes
 
-v 0.8.X on XXX XX, 2018
+v 0.8.5 on Jul 24, 2018
 -----------------------
 
 * Configure the project user separately from the project name, as

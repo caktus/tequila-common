@@ -47,7 +47,7 @@ directory ::
     ---
     # file: deployment/requirements.yml
     - src: https://github.com/caktus/tequila-common
-      version: 0.1.0
+      version: 0.8.5
 
 Run ``ansible-galaxy`` with your requirements file ::
 
