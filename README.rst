@@ -52,7 +52,7 @@ directory ::
     ---
     # file: deployment/requirements.yml
     - src: https://github.com/caktus/tequila-common
-      version: 0.1.0
+      version: X.Y.Z
 
 Run ``ansible-galaxy`` with your requirements file ::
 
@@ -127,3 +127,19 @@ either ``users`` or ``unmanaged_users`` (not counting the special user
 that owns the files from the codebase) will be removed on each run of
 this role.  However, the users' files and directories will not be
 removed.
+
+
+SSH Agent Forwarding
+--------------------
+
+SSH agent forwarding is optional, but can be handy for things like
+using private git repositories or node packages during the deploy.
+
+To enable it, include "-o ForwardAgent=yes " in
+``ssh_args`` in ``ansible.cfg``, as in the example above.
+
+If you don't want to have ssh agent forwarding, just change it to
+"-o ForwardAgent=no". That'll always block agent forwarding during
+deploys.  Or leave that option out of the configuration, which'll
+leave it up to your users to decide whether to forward their
+ssh agents based on their own ssh configurations.

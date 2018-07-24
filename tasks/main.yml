@@ -1,26 +1,56 @@
 ---
 
-# This block is all the stuff we only need to do once, no matter how many
-# projects we're deploying.  One project needs to have subproject false
+# This arranges for *FUTURE* connections to allow the project_user to access the
+# socket connected to the forwarded ssh agent.  We'll also run the command
+# directly from the next task, but this allows users to run other ansible plays
+# without first running tequila-common, and still take advantage of agent
+# forwarding.
+#
+# This does need to run for every project, since projects might be using
+# different project_users.  So we can't move it into the "not subproject"
+# block lower down.
+#
+# https://serverfault.com/questions/107187/ssh-agent-forwarding-and-sudo-to-another-user
+- name: Set up /etc/ssh/sshrc to open up the ssh auth sock iffi the agent was forwarded
+  lineinfile:
+    path: /etc/ssh/sshrc
+    backup: yes
+    create: yes
+    line: if [ -n "$SSH_AUTH_SOCK" ] ; then setfacl -m u:{{ project_user }}:x $(dirname "$SSH_AUTH_SOCK") u:{{ project_user }}:rwx "$SSH_AUTH_SOCK"; fi
+
+# This opens up the forwarded ssh agent socket for this connection
+# so the project_user can use it.
+#
+# It's only really needed the first time tequila-common is run. After
+# that, the /etc/ssh/sshrc script created above will do it on the
+# establishment of every connection.
+#
+# This must not sudo before running, because we might not yet have fixed
+# the sudo config to pass the SSH_AUTH_SOCK value through. It's okay not
+# to sudo, because the connecting user must have access to the socket
+# or they couldn't use it themselves, and so should be able to change
+# its permissions.
+#
+# We just run the /etc/ssh/sshrc we just created, rather than put the
+# ACL commands in two places (staying DRY).
+- name: open up ssh agent forwarding socket
+  become: false
+  shell: . /etc/ssh/sshrc
+
+# This block is all the things we only need to do once, no matter how many
+# projects we're deploying on these servers.  One project needs to have subproject false
 # (which is the default), then we skip all this for the rest of the projects,
-# which should have subproject true;
+# which should have subproject=true.
 - when: not subproject
   block:
+  # sudo needs to pass through the environment variable pointing at the
+  # forwarded ssh agent socket, so sudo commands know where it is.
   - name: Configure sudo so ssh agent forwarding survives sudo
     lineinfile:
       dest: /etc/sudoers
       state: present
       regexp: SSH_AUTH_SOCK
       line: Defaults env_keep += "SSH_AUTH_SOCK"
-
-  - name: Set up /etc/ssh/sshrc to open up the ssh auth sock iffi the agent was forwarded
-    copy:
-      dest: /etc/ssh/sshrc
-      content: |
-        if [ -n "$SSH_AUTH_SOCK" ] ; then
-          chmod a+r $SSH_AUTH_SOCK
-          chmod a+rx $(dirname $SSH_AUTH_SOCK)
-        fi
 
   - name: install base packages
     apt: pkg={{ item }} state=present update-cache=yes cache_valid_time=3600

@@ -1,7 +1,7 @@
 ---
 users: []
 unmanaged_users: []
-root_dir: "/var/www/{{ project_name }}"
+root_dir: "/var/wwmw/{{ project_name }}"
 log_dir: "{{ root_dir }}/log"
 public_dir: "{{ root_dir }}/public"
 static_dir: "{{ root_dir }}/public/static"
