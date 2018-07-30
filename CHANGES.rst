@@ -3,7 +3,7 @@ Tequila-common
 
 Changes
 
-v X.Y.Z on MMM DD, YYYY
+v 0.8.6 on Jul 30, 2018
 -----------------------
 
 * Some changes to help with ssh agent forwarding.
