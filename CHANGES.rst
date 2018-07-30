@@ -6,7 +6,6 @@ Changes
 v X.Y.Z on MMM DD, YYYY
 -----------------------
 
-* Add ``subproject`` variable to speed up multisite deploys.
 * Some changes to help with ssh agent forwarding.
 
 
