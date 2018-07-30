@@ -141,7 +141,7 @@
     state: absent
   with_items: "{{ current_users | difference(active_users) | difference(unmanaged_users) }}"
   vars:
-    current_users: "{{ current_users_out.stdout_lines | difference([project_user])  }}"
+    current_users: "{{ current_users_out.stdout_lines | difference([project_user]) }}"
     active_users: "{{ users | map(attribute='name') | list }}"
 
 - name: create the project user {{ project_user }}

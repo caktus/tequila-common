@@ -76,7 +76,6 @@ role:
 - ``project_user`` **default:** ``{{ project_name }}``
 - ``env_name`` **required** e.g. ``'staging'``
 - ``users`` **default:** empty list
-- ``project_user`` **default:** ``"{{ project_name }}"``
 - ``unmanaged_users`` **default:** empty list
 - ``root_dir`` **default:** ``"/var/www/{{ project_name }}"``
 - ``log_dir`` **default:** ``"{{ root_dir }}/log"``
