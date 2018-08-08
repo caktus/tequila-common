@@ -105,6 +105,8 @@
         groups=www-data
         append=yes # appends the group(s) set above to the user's set of groups
 
+# The next task must occur AFTER project_user creation
+
 # This arranges for *FUTURE* connections to allow the project_user to access the
 # socket connected to the forwarded ssh agent.  We'll also run the command
 # directly from the next task, but this allows users to run other ansible plays

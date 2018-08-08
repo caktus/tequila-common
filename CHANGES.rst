@@ -3,6 +3,12 @@ Tequila-common
 
 Changes
 
+v 0.8.7 on Aug 9, 2018
+----------------------
+
+* Bug fix to run SSH agent forwarding configuration after creation of project_user.
+
+
 v 0.8.6 on Jul 30, 2018
 -----------------------
 
