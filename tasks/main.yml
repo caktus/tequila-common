@@ -15,7 +15,7 @@
     path: /etc/ssh/sshrc
     backup: yes
     create: yes
-    line: if [ -n "$SSH_AUTH_SOCK" ] ; then if grep {{ project_user }} /etc/passwd ; then setfacl -m u:{{ project_user }}:rx $(dirname "$SSH_AUTH_SOCK") -m u:{{ project_user }}:rwx "$SSH_AUTH_SOCK"; fi; fi
+    line: if [ -n "$SSH_AUTH_SOCK" ] ; then if grep --quiet {{ project_user }} /etc/passwd ; then setfacl -m u:{{ project_user }}:rx $(dirname "$SSH_AUTH_SOCK") -m u:{{ project_user }}:rwx "$SSH_AUTH_SOCK"; fi; fi
 
 # This opens up the forwarded ssh agent socket for this connection
 # so the project_user can use it.
