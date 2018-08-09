@@ -3,6 +3,12 @@ Tequila-common
 
 Changes
 
+v 0.8.7 on Aug 9, 2018
+----------------------
+
+* Fix for ssh agent forwarding: don't use setfacl on the socket unless
+  the project user exists.
+
 v 0.8.6 on Jul 30, 2018
 -----------------------
 
