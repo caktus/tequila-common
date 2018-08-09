@@ -3,6 +3,11 @@ Tequila-common
 
 Changes
 
+v 0.8.8 on Aug 9, 2018
+----------------------
+
+* Fix for sftp: add --quiet to grep in /etc/sshrc.
+
 v 0.8.7 on Aug 9, 2018
 ----------------------
 
