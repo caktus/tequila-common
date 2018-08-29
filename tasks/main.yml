@@ -45,15 +45,15 @@
     regexp: SSH_AUTH_SOCK
     line: Defaults env_keep += "SSH_AUTH_SOCK"
 
-- name: install 16.04-specific base packages
+- name: install Ubuntu<18.04 base packages
   apt: pkg={{ item }} state=present update-cache=yes cache_valid_time=3600
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version < "18"
   with_items:
     - python-software-properties
 
-- name: install 18.04-specific base packages
+- name: install Ubuntu>=18.04 base packages
   apt: pkg={{ item }} state=present update-cache=yes cache_valid_time=3600
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04'
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version >= "18"
   with_items:
     - software-properties-common
 
