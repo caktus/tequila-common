@@ -45,10 +45,15 @@
     regexp: SSH_AUTH_SOCK
     line: Defaults env_keep += "SSH_AUTH_SOCK"
 
+- name: install python-software-properties if less than Ubuntu 18.04, which no longer has it
+  when: ansible_distribution_version|float < 18
+  apt: pkg={{ item }} state=present update-cache=yes cache_valid_time=3600
+  with_items:
+  - python-software-properties
+
 - name: install base packages
   apt: pkg={{ item }} state=present update-cache=yes cache_valid_time=3600
   with_items:
-    - python-software-properties
     - dpkg-dev
     - wget
     - build-essential
