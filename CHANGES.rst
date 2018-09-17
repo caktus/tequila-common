@@ -3,6 +3,12 @@ Tequila-common
 
 Changes
 
+v 0.8.9 on Sep 17, 2018
+-----------------------
+
+* Fix for Ubuntu 18+: python-software-properties package changed to
+  software-properties-common.
+
 v 0.8.8 on Aug 9, 2018
 ----------------------
 
