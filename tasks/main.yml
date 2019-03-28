@@ -89,10 +89,10 @@
   copy: src=admin dest=/etc/sudoers.d/admin owner=root mode=0440
 
 - name: allow ssh through firewall
-  ufw: rule=allow port=ssh
+  ufw: rule=allow port=ssh direction=in
 
 - name: ensure ufw is turned on
-  ufw: state=enabled policy=deny
+  ufw: state=enabled policy=deny direction=incoming
 
 - name: ensure postfix is turned on
   service: name=postfix state=started
