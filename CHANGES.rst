@@ -3,8 +3,8 @@ Tequila-common
 
 Changes
 
-v ?.?.?
--------
+v 0.9.0 on Apr 1, 2019
+----------------------
 
 * Fix for Ansible 2.7.9: include direction on ufw tasks. (Became required
   in Ansible 2.7.8 or 2.7.9, not documented yet but see
