@@ -232,8 +232,8 @@
     - path: "{{ public_dir }}"
       group: www-data
     - path: "{{ static_dir }}"
-      mode: 0755
+      mode: "0755"
     - path: "{{ media_dir }}"
-      mode: 0755
+      mode: "0755"
     - path: "{{ ssh_dir }}"
-      mode: 0700
+      mode: "0700"
