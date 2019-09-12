@@ -10,6 +10,7 @@ v 0.9.1 on ???
   <https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html#action-shorthand>`_
   for all tasks.
 * Change ``include`` to ``include_tasks``.
+* Fix search to be more specific for whether project user exists in /etc/ssh/sshrc.
 
 v 0.9.0 on Apr 1, 2019
 ----------------------
