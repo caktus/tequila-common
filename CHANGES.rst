@@ -3,6 +3,10 @@ Tequila-common
 
 Changes
 
+v 0.9.2 on ?
+-----------------------
+* Pass packages to apt module as list rather than using squash_actions, which is more efficient and removes deprecation warning
+
 v 0.9.1 on Sep 12, 2019
 -----------------------
 
