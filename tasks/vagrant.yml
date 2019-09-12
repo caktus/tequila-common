@@ -1,3 +1,8 @@
 ---
 - name: configure vagrant user
-  user: name=vagrant groups=admin,login append=yes
+  user:
+    name: vagrant
+    groups:
+      - admin
+      - login
+    append: yes
