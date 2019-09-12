@@ -11,6 +11,7 @@ v 0.9.1 on Sep 12, 2019
   for all tasks.
 * Change ``include`` to ``include_tasks``.
 * Fix search to be more specific for whether project user exists in /etc/ssh/sshrc.
+* Requires at least Ansible 2.4
 
 v 0.9.0 on Apr 1, 2019
 ----------------------
