@@ -49,31 +49,25 @@
 
 - name: install Ubuntu<18.04 base packages
   apt:
-    name: "{{ item }}"
+    name:
+      - python-software-properties
     state: present
     update_cache: yes
     cache_valid_time: 3600
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version < "18"
-  with_items:
-    - python-software-properties
 
 - name: install Ubuntu>=18.04 base packages
   apt:
-    name: "{{ item }}"
+    name:
+      - software-properties-common
     state: present
     update_cache: yes
     cache_valid_time: 3600
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version >= "18"
-  with_items:
-    - software-properties-common
 
 - name: install base packages
   apt:
-    name: "{{ item }}"
-    state: present
-    update_cache: yes
-    cache_valid_time: 3600
-  with_items:
+    name:
     - dpkg-dev
     - wget
     - build-essential
@@ -89,6 +83,9 @@
     - rsync
     - apt-transport-https
     - lsof
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
 
 - include_tasks: newrelic.yml
   when: use_newrelic
