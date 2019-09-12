@@ -3,8 +3,8 @@ Tequila-common
 
 Changes
 
-v 0.9.1 on ???
-----------------------
+v 0.9.1 on Sep 12, 2019
+-----------------------
 
 * Consistently use the `recommended module:options format
   <https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html#action-shorthand>`_
